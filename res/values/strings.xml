@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Network Hunt</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_save_current_reception">SaveCurrentReception</string>
+    <string name="title_activity_filter">Select Filters</string>
+    <string name="title_section1">Networks</string>
+    <string name="title_section2">Services</string>
+    <string name="title_section3">Strengths</string>
+    <string name="title_section4">Makers</string>
+    <string name="title_section5">Models</string>
+    <string name="title_activity_section_1">Section_1</string>
+    <string name="title_activity_section_2">Section_2</string>
+    <string name="title_activity_section_3">Section_3</string>
+    <string name="title_activity_welcom">Network Hunt</string>
+    <string name="title_activity_recorded_receptions">RecordedReceptions</string>
+    <string name="title_activity_maker_fragment">MakerFragment</string>
+    <string name="title_activity_model_fragment">ModelFragment</string>
+
+</resources>

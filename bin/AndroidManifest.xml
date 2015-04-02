@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mtas"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="20" />
+
+    <permission
+        android:name="com.example.mtas.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.example.mtas.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- LICENSE PERMISSIONS -->
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+
+    <!-- Required to show current location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Required OpenGL ES 2.0. for Maps V2 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        <activity
+            android:name="com.example.mtas.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.mtas.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mtas.MainActivity" />
+        </activity>
+
+        <activity
+            android:name="com.example.mtas.SaveCurrentReception"
+            android:label="@string/title_activity_save_current_reception" >
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.FilterActivity"
+            android:label="@string/title_activity_filter" >
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.NetworkFragment"
+            android:label="@string/title_activity_section_1" >
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.ServiceFragment"
+            android:label="@string/title_activity_section_2" >
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.StrengthFragment"
+            android:label="@string/title_activity_section_3" >
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.WelcomeActivity"
+            android:label="@string/title_activity_welcom" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.RecordedReceptions"
+            android:label="@string/title_activity_recorded_receptions" >
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.MakerFragment"
+            android:label="@string/title_activity_maker_fragment" >
+        </activity>
+        
+        <activity
+            android:name="com.example.mtas.ModelFragment"
+            android:label="@string/title_activity_model_fragment" >
+        </activity>
+        
+        <service
+            android:name="com.example.mtas.AutoSaveService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+        
+       <!--  <service
+            android:name="com.example.mtas.AutoUploadService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>	 -->
+        
+        <service
+            android:name="com.example.mtas.TrackRouteService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+
+        <receiver android:name ="com.example.mtas.AutoUploadService">
+            <intent-filter >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        
+        <!-- Adding Google Play Service Version -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyC9D5D6JT7yMP732DGQtKZ538RmnO4FQm4" />
+        
+    </application>
+
+</manifest>

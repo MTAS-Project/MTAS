@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mtas.SettingsActivity"
+    android:background="#4affa71e"
+    tools:ignore="MergeRootFrame">
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Auto Upload"
+        android:id="@+id/autoUploadSwitch"
+        android:layout_marginTop="48dp"
+        android:checked="true"
+        android:onClick="onAutoUploadClicked"
+        android:layout_below="@+id/autoSaveSwitch"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Switch
+        android:id="@+id/trackSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/autoUploadSwitch"
+        android:layout_marginTop="49dp"
+        android:checked="true"
+        android:text="Auto Save" 
+        android:onClick="onAutoSaveClicked"/>
+    
+</RelativeLayout>
+

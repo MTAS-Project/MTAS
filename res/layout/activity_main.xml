@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mtas.MainActivity"
+    tools:ignore="MergeRootFrame" >
+    
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.SupportMapFragment" />
+
+    <SearchView
+        android:id="@+id/searchLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:background="#CCFFFFFF"
+        android:maxWidth="260dp"
+        android:queryHint="Search Location..." >
+
+    </SearchView>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@+id/filterButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/filterButton"
+        android:background="#B3FFFFFF"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ProgressBar
+        android:id="@+id/mainProgress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchLocation"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="123dp" />
+
+    <Button
+        android:id="@+id/filterButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="#CCFFFFFF"
+        android:minHeight="25dp"
+        android:onClick="onClickFilterButton"
+        android:text="Apply Filters"
+        android:textColor="#666666"
+        android:textSize="15dp"/>
+
+    <ImageButton
+        android:id="@+id/refreshButton"
+        android:layout_width="37dp"
+        android:layout_height="35dp"
+        android:layout_above="@+id/filterButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="12dp"
+        android:background="#CCFFFFFF"
+        android:src="@android:drawable/ic_popup_sync" />
+
+    <TextView
+        android:id="@+id/lastUpdateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/filterButton"
+        android:background="#B3FFFFFF"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+</RelativeLayout>
+
+
+
