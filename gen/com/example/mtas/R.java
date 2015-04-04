@@ -539,8 +539,8 @@ containing a value of this type.
     }
     public static final class string {
         public static final int accept=0x7f070002;
-        public static final int action_settings=0x7f070025;
-        public static final int app_name=0x7f070023;
+        public static final int action_settings=0x7f070026;
+        public static final int app_name=0x7f070025;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
         public static final int common_android_wear_notification_needs_update_text=0x7f070009;
@@ -643,45 +643,48 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f070005;
         public static final int create_calendar_title=0x7f070004;
         public static final int decline=0x7f070003;
-        public static final int hello_world=0x7f070024;
-        public static final int pref_default_display_name=0x7f070039;
-        public static final int pref_description_social_recommendations=0x7f070037;
+        public static final int logo_globe=0x7f070023;
+        public static final int logo_magnifier=0x7f070024;
+        public static final int pref_default_display_name=0x7f07003a;
+        public static final int pref_description_social_recommendations=0x7f070038;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f07003b;
-        /**  Strings related to Settings 
+        public static final int pref_header_data_sync=0x7f07003c;
+        /**  <string name="title_activity_settings">Settings</string>
+ 
+ Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f070035;
+        public static final int pref_header_general=0x7f070036;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f07003e;
-        public static final int pref_ringtone_silent=0x7f070041;
-        public static final int pref_title_add_friends_to_messages=0x7f07003a;
-        public static final int pref_title_display_name=0x7f070038;
-        public static final int pref_title_new_message_notifications=0x7f07003f;
-        public static final int pref_title_ringtone=0x7f070040;
-        public static final int pref_title_social_recommendations=0x7f070036;
-        public static final int pref_title_sync_frequency=0x7f07003c;
-        public static final int pref_title_system_sync_settings=0x7f07003d;
-        public static final int pref_title_vibrate=0x7f070042;
+        public static final int pref_header_notifications=0x7f07003f;
+        public static final int pref_ringtone_silent=0x7f070042;
+        public static final int pref_title_add_friends_to_messages=0x7f07003b;
+        public static final int pref_title_display_name=0x7f070039;
+        public static final int pref_title_new_message_notifications=0x7f070040;
+        public static final int pref_title_ringtone=0x7f070041;
+        public static final int pref_title_social_recommendations=0x7f070037;
+        public static final int pref_title_sync_frequency=0x7f07003d;
+        public static final int pref_title_system_sync_settings=0x7f07003e;
+        public static final int pref_title_vibrate=0x7f070043;
         public static final int store_picture_message=0x7f070001;
         public static final int store_picture_title=0x7f070000;
-        public static final int title_activity_filter=0x7f070028;
-        public static final int title_activity_maker_fragment=0x7f070033;
-        public static final int title_activity_model_fragment=0x7f070034;
-        public static final int title_activity_recorded_receptions=0x7f070032;
-        public static final int title_activity_save_current_reception=0x7f070027;
-        public static final int title_activity_section_1=0x7f07002e;
-        public static final int title_activity_section_2=0x7f07002f;
-        public static final int title_activity_section_3=0x7f070030;
-        public static final int title_activity_settings=0x7f070026;
-        public static final int title_activity_welcom=0x7f070031;
-        public static final int title_section1=0x7f070029;
-        public static final int title_section2=0x7f07002a;
-        public static final int title_section3=0x7f07002b;
-        public static final int title_section4=0x7f07002c;
-        public static final int title_section5=0x7f07002d;
+        public static final int title_activity_filter=0x7f070029;
+        public static final int title_activity_maker_fragment=0x7f070034;
+        public static final int title_activity_model_fragment=0x7f070035;
+        public static final int title_activity_recorded_receptions=0x7f070033;
+        public static final int title_activity_save_current_reception=0x7f070028;
+        public static final int title_activity_section_1=0x7f07002f;
+        public static final int title_activity_section_2=0x7f070030;
+        public static final int title_activity_section_3=0x7f070031;
+        public static final int title_activity_settings=0x7f070027;
+        public static final int title_activity_welcom=0x7f070032;
+        public static final int title_section1=0x7f07002a;
+        public static final int title_section2=0x7f07002b;
+        public static final int title_section3=0x7f07002c;
+        public static final int title_section4=0x7f07002d;
+        public static final int title_section5=0x7f07002e;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

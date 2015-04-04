@@ -9,7 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -242,8 +245,12 @@ public class SaveCurrentReception extends Activity {
 	    	reception.setMaker(maker);
 	    	reception.setModel(model);
 	    	reception.setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
-	    	String date = (String) (DateFormat.format("yyyy-MM-dd hh:mm:ss.000", new java.util.Date()));
-	    	reception.setTimeStamp(date);
+
+	    	final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.000");
+	        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));	    	
+	        String date =  sdf.format(new Date());
+
+	        reception.setTimeStamp(date);
 	    	
 	    	DBHandler db = new DBHandler(this);
 	    	db.getWritableDatabase();

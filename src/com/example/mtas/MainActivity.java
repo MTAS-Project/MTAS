@@ -8,97 +8,55 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//import com.example.mtas.SaveCurrentReception.myCustomPhoneListener;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.api.services.mapsengine.model.Icon;
-import com.google.maps.android.clustering.Cluster;
-import com.google.maps.android.clustering.ClusterItem;
-import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
-import com.google.maps.android.clustering.ClusterManager.OnClusterInfoWindowClickListener;
-import com.google.maps.android.clustering.view.DefaultClusterRenderer;
-import com.google.maps.android.ui.IconGenerator;
-
-import android.app.Activity;
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.location.Address;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.PhoneStateListener;
-import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Build;
-import android.os.AsyncTask.Status;
-import android.provider.Settings;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
+//import com.example.mtas.SaveCurrentReception.myCustomPhoneListener;
+//import com.google.api.services.mapsengine.model.Icon;
 
 public class MainActivity extends FragmentActivity	implements  OnClusterClickListener<Reception>
 {
@@ -784,7 +742,7 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
 			intent.putExtra("networks", networks);
 			intent.putExtra("services", services);
 			intent.putExtra("strengths", strengths);
-			intent.putExtra("makers",makers);
+			intent.putExtra("makes",makers);
 			intent.putExtra("models", models);
 			startActivityForResult(intent, 1);
 		}
@@ -853,7 +811,7 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
             editor.putBoolean("autoupload", true);
             editor.commit();
             
-            startService(new Intent(this, AutoUploadService.class));
+            startService(new Intent(this, AutoUploadBroadcastReceiver.class));
         }
         if (!sharedPreferences.contains("autosave")) 
         {
@@ -1051,10 +1009,10 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
                 e.printStackTrace();
             }
             
-            if (receptions.size() != 0)
+//            if (receptions.size() != 0)
                 return receptions;
-            else
-                return null;
+//            else
+//                return null;
         }
 
     }

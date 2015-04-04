@@ -88,10 +88,10 @@ public class SettingsActivity extends Activity {
         System.out.println("Clicked AU: "+on);
 
         if (on) {
-            Intent intent = new Intent(this, AutoUploadService.class);
+            Intent intent = new Intent(this, AutoUploadBroadcastReceiver.class);
             startService(intent);
         } else {
-            Intent intent = new Intent(this, AutoUploadService.class);
+            Intent intent = new Intent(this, AutoUploadBroadcastReceiver.class);
             stopService(intent);
         }
         editor.commit();

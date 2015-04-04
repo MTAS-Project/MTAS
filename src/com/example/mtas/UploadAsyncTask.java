@@ -21,10 +21,10 @@ public class UploadAsyncTask extends AsyncTask<Context, Void, Void>{
 	SharedPreferences sPref;
 	SharedPreferences.Editor editor;
 	private String uploadAddress = "http://disco-idea-89406.appspot.com/upload";
-
+	private Boolean readyToExecute=true;
 	@Override
 	protected Void doInBackground(Context... params) {
-		// TODO Auto-generated method stub
+		readyToExecute=false;
 		System.out.println("MTAS Intenet enable");
 		
 		Context context = params[0];
@@ -101,6 +101,15 @@ public class UploadAsyncTask extends AsyncTask<Context, Void, Void>{
 		}
 
 		return null;
+	}
+	protected void onPostExecute(Void... voids ){
+		readyToExecute=true;
+	}
+	public void setNotReadyToExecute(){
+		readyToExecute=false;
+	}
+	public boolean isReadyToExecute(){
+		return readyToExecute;
 	}
 	public boolean checkIfOnline(Context context)
 	{
