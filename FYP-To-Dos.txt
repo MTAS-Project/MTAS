@@ -1,0 +1,16 @@
+To dos:
+	get coarse location	
+			
+	only wifi uploading option
+	upload to playstore
+
+	No crashes
+	
+Future:
+	-cluster report when tapped
+	-big downloaded data? ask server to send limited amount of data(receptions)
+	-so much uploaded data (stored in local db for “my receps” activity)? remove some 	uploaded receptions. but not those which are not uploaded yet.
+
+
+
+
