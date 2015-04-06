@@ -21,12 +21,12 @@ public class Reception implements ClusterItem {
 	public Reception(LatLng location, String networkOp, String serviceType, int signalStrength, String maker, String model, String timeStamp) 
 	{
 		this.location = location;
-		this.networkOp = networkOp;
-		this.serviceType = serviceType;
+		this.networkOp = networkOp.trim();
+		this.serviceType = serviceType.trim();
 		this.signalStrength = signalStrength;
-		this.maker = maker;
-		this.model = model;
-		this.timeStamp = timeStamp;
+		this.maker = maker.trim();
+		this.model = model.trim();
+		this.timeStamp = timeStamp.trim();
 	}
 
 	public LatLng getLocation() {
@@ -42,7 +42,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setNetworkOp(String networkOp) {
-		this.networkOp = networkOp;
+		this.networkOp = networkOp.trim();
 	}
 
 	public String getServiceType() {
@@ -50,7 +50,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setServiceType(String serviceType) {
-		this.serviceType = serviceType;
+		this.serviceType = serviceType.trim();
 	}
 
 	public int getSignalStrength() {
@@ -66,7 +66,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setMaker(String maker) {
-		this.maker = maker;
+		this.maker = maker.trim();
 	}
 
 	public String getModel() {
@@ -74,7 +74,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setModel(String model) {
-		this.model = model;
+		this.model = model.trim();
 	}
 
 	public String getTimeStamp() {
@@ -82,7 +82,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setTimeStamp(String timeStamp) {
-		this.timeStamp = timeStamp;
+		this.timeStamp = timeStamp.trim();
 	}
 	
 	public void display()

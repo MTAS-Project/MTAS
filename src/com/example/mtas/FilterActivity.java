@@ -16,8 +16,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,6 +64,8 @@ public class FilterActivity extends Activity implements ActionBar.TabListener,
 		strengths = extras.getStringArrayList("strengths");
 		makers = extras.getStringArrayList("makers");
 		models = extras.getStringArrayList("models");
+		
+//		System.out.println("MTAS filter activity maker = "+makers.size());
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -216,6 +218,7 @@ public class FilterActivity extends Activity implements ActionBar.TabListener,
 				}
 				case 3:
 				{
+					
 					MakerFragment fragment = new MakerFragment();
 					fragment.setMakers(makers);
 					

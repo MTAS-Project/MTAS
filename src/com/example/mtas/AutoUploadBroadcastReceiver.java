@@ -53,7 +53,8 @@ public class AutoUploadBroadcastReceiver extends BroadcastReceiver {
 		{
 			Toast.makeText(context, "Internet is enable", Toast.LENGTH_LONG).show();
 //		new Upload
-			if(!uploadAsyncTask.isReadyToExecute()){
+			if(!uploadAsyncTask.isReadyToExecute())
+			{
 				uploadAsyncTask.setNotReadyToExecute();
 				uploadAsyncTask.execute(context);
 			}

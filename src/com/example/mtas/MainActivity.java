@@ -15,9 +15,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.app.AlertDialog;
+import android.app.Notification.Action;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -314,23 +316,23 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
         System.out.println(msg+ "The onStop() event");
     }
 
-    @Override
-    public void onBackPressed()
-    {
-    	new AlertDialog.Builder(this)
-    			.setMessage("Are you sure you want to quit?")
-    			.setCancelable(false)
-    			.setNegativeButton("No", null)
-    			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						
-						MainActivity.this.finish();
-					}
-				})
-    			.show();
-    }
+//    @Override
+//    public void onBackPressed()
+//    {
+//    	new AlertDialog.Builder(this)
+//    			.setMessage("Are you sure you want to quit?")
+//    			.setCancelable(false)
+//    			.setNegativeButton("No", null)
+//    			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//					
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						
+//						MainActivity.this.finish();
+//					}
+//				})
+//    			.show();
+//    }
     /**
      * Called just before the activity is destroyed.
      */
@@ -648,13 +650,13 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
     	ArrayList<Reception> tempRecp = getFilteredReceptions();
     	
     	System.out.println(msg+ "-- "+tempRecp.size());
+    	
     	ClusterManager<Reception> clusterMaker = new ClusterManager<Reception>(this, googleMap);
     	ReceptionRenderer renderer = new ReceptionRenderer(this, googleMap, clusterMaker);
     	MarkerOptions markerOptions = null;
     	
     	googleMap.setOnCameraChangeListener(clusterMaker);
     	googleMap.setOnMarkerClickListener(clusterMaker);
-    	
     	googleMap.clear();
     	
 		clusterMaker.setRenderer(renderer);
@@ -736,15 +738,17 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
 		
 		if(receptions.isEmpty()==false)
 		{
+			System.out.println(msg+"Makers size  = "+makers.size()+","+models.size());
 			System.out.println("FilterActivity Button");
 			
 			Intent intent = new Intent(this, FilterActivity.class);
 			intent.putExtra("networks", networks);
 			intent.putExtra("services", services);
 			intent.putExtra("strengths", strengths);
-			intent.putExtra("makes",makers);
+			intent.putExtra("makers",makers);
 			intent.putExtra("models", models);
 			startActivityForResult(intent, 1);
+			
 		}
 	}
 	
@@ -811,7 +815,10 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
             editor.putBoolean("autoupload", true);
             editor.commit();
             
-            startService(new Intent(this, AutoUploadBroadcastReceiver.class));
+//            AutoUploadBroadcastReceiver autoUploadBR = new AutoUploadBroadcastReceiver();
+//            IntentFilter intentFilter = new IntentFilter();
+//            intentFilter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+//            registerReceiver(autoUploadBR, intentFilter);
         }
         if (!sharedPreferences.contains("autosave")) 
         {
@@ -1045,6 +1052,7 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
 		@Override 
 		protected void onPostExecute(ArrayList<Reception> receptionList)
 		{
+			
 			if(receptionList!=null)
 			{
 				for(int i=0;i<receptionList.size();i++)

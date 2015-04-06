@@ -103,7 +103,7 @@
         </activity>
         
         <service
-            android:name="com.example.mtas.AutoSaveService"
+            android:name="com.example.mtas.TrackRouteService"
             android:enabled="true"
             android:exported="false" >
         </service>
@@ -114,11 +114,11 @@
             android:exported="false" >
         </service>	 -->
         
-        <receiver android:name ="com.example.mtas.AutoUploadBroadcastReceiver">
+        <receiver android:name = "com.example.mtas.AutoUploadBroadcastReceiver">
             <intent-filter >
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name = "android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
-        </receiver>
+        </receiver>	
         
         <!-- Adding Google Play Service Version -->
         <meta-data

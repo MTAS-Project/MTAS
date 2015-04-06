@@ -102,7 +102,7 @@ public class WelcomeActivity extends Activity
 		//  new TranslateAnimation(xFrom,xTo, yFrom,yTo)
 		
         animation.setDuration(1000);  // animation duration
-        animation.setRepeatCount(7);  // animation repeat count
+        animation.setRepeatCount(1);  // animation repeat count
         animation.setRepeatMode(2);   // repeat animation (left to right, right to left )
 
 //		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);

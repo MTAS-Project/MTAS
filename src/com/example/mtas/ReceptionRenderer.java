@@ -3,27 +3,38 @@ package com.example.mtas;
 import android.content.Context;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 
+	private static final int MIN_CLUSTER_SIZE = 60;
+	
 	public ReceptionRenderer(Context context, GoogleMap map, ClusterManager<Reception> clusterManager) {
 		super(context, map, clusterManager);
 		
 		map.clear();
 		clusterManager.clearItems();
-		
 	}
 	
+	@Override
+	protected boolean shouldRenderAsCluster(Cluster<Reception> cluster)
+	{
+		super.shouldRenderAsCluster(cluster);
+		return cluster.getSize() > MIN_CLUSTER_SIZE;
+	}
+	
+
 	@Override
 	protected void onBeforeClusterItemRendered(Reception reception, MarkerOptions markerOptions)
 	{
 		super.onBeforeClusterItemRendered(reception, markerOptions);
-		
 		
 	}
 	
@@ -40,13 +51,13 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 		
 		
 //		System.out.print("Cluster ");reception.display();
-		
+//		System.out.println("MTAS signal strenght = "+reception.getSignalStrength()+","+reception.getServiceType());
 		
 		if(reception.getSignalStrength()==1)
 		{
 			switch(reception.getServiceType().toLowerCase())
 			{
-				case "gprs":
+				case "g":
 				{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.redg));
 					break;
@@ -66,7 +77,7 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.red4g));
 					break;
 				}
-				case "edge":
+				case "e":
 				{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.rede));
 					break;
@@ -87,7 +98,7 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 		{
 			switch(reception.getServiceType().toLowerCase())
 			{
-				case "gprs":
+				case "g":
 				{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.yellowg));
 					break;
@@ -107,7 +118,7 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.yellow4g));
 					break;
 				}
-				case "edge":
+				case "e":
 				{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.yellowe));
 					break;
@@ -128,7 +139,7 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 		{
 			switch(reception.getServiceType().toLowerCase())
 			{
-				case "gprs":
+				case "g":
 				{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.orangeg));
 					break;
@@ -148,7 +159,7 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.orange4g));
 					break;
 				}
-				case "edge":
+				case "e":
 				{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.orangee));
 					break;
@@ -169,7 +180,7 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 		{
 			switch(reception.getServiceType().toLowerCase())
 			{
-				case "gprs":
+				case "g":
 				{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.greeng));
 					break;
@@ -189,7 +200,7 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.green4g));
 					break;
 				}
-				case "edge":
+				case "e":
 				{
 					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.greene));
 					break;

@@ -121,6 +121,8 @@ public class MakerFragment extends Fragment {
 	{
 		
 		this.makers = makers;
+		
+//		System.out.println("MTAS maker = "+makers.size());
 	}
 	
 	

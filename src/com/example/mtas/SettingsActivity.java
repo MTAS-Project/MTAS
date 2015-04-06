@@ -1,8 +1,11 @@
 package com.example.mtas;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,15 +18,18 @@ public class SettingsActivity extends Activity {
     private Switch autoSave;
     private Switch autoUpload;
     private Switch trackRoute;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private AutoUploadBroadcastReceiver autoUploadBR;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         sharedPreferences = getSharedPreferences("Settings" ,0);
         editor = sharedPreferences.edit();
+        
+        autoUploadBR = new AutoUploadBroadcastReceiver();
         loadPreferences();
 
     }
@@ -87,12 +93,22 @@ public class SettingsActivity extends Activity {
 
         System.out.println("Clicked AU: "+on);
 
-        if (on) {
-            Intent intent = new Intent(this, AutoUploadBroadcastReceiver.class);
-            startService(intent);
-        } else {
-            Intent intent = new Intent(this, AutoUploadBroadcastReceiver.class);
-            stopService(intent);
+        if (on) 
+        {
+//            IntentFilter intentFilter = new IntentFilter();
+//            intentFilter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
+//            registerReceiver(autoUploadBR, intentFilter);
+        	PackageManager packageManager = getPackageManager();
+        	ComponentName componentName = new ComponentName(SettingsActivity.this, com.example.mtas.AutoUploadBroadcastReceiver.class);
+        	packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+            
+        } 
+        else 
+        {
+        	PackageManager packageManager = getPackageManager();
+        	ComponentName componentName = new ComponentName(SettingsActivity.this, com.example.mtas.AutoUploadBroadcastReceiver.class);
+        	packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            
         }
         editor.commit();
     }

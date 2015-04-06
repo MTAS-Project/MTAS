@@ -132,9 +132,9 @@ public class TrackRouteService extends Service	{
 		Toast.makeText(this, "Track Route Service Started !", Toast.LENGTH_SHORT).show();
 	    recordReception = new RecordReceptionThread();
 	   
-	    IntentFilter filter = new IntentFilter();
-		filter.addAction("com.example.mtas.RecordReceptionThread");
-		registerReceiver(recordReception, filter);
+	    IntentFilter intentfilter = new IntentFilter();
+	    intentfilter.addAction("com.example.mtas.RecordReceptionThread");
+		registerReceiver(recordReception, intentfilter);
 		
 		recordReception.setAlarm(TrackRouteService.this);
 		
