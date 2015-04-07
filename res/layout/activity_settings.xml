@@ -15,7 +15,6 @@
         android:layout_marginTop="48dp"
         android:checked="true"
         android:onClick="onAutoUploadClicked"
-        android:layout_below="@+id/autoSaveSwitch"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

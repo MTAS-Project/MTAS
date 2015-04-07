@@ -167,9 +167,10 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
 			@Override
 			public void onClick(View v) {
 				
-				if(isDeviceOnline(true) && executeReady==true)
+				if(checkIfOnline(getApplicationContext()) && executeReady==true)
 				{
-					downloadFeaturesTask.execute();
+					
+					new ServerHandler().execute();
 		            
 		            progressBar.setVisibility(View.VISIBLE);
 					refreshData.setEnabled(false);
@@ -357,7 +358,7 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
 		
         if (dbHandler.getAllReceptionsCount()==0)
         {
-            if(isDeviceOnline(true))
+            if(checkIfOnline(getApplicationContext()))
         	{
             	progressBar.setVisibility(View.VISIBLE);
             	refreshData.setEnabled(false);
@@ -677,7 +678,7 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
     			clusterMaker.addItem(tempRecp.get(i));
     			
 //    			renderer.onBeforeClusterItemRendered(tempRecp.get(i), markerOptions);
-    			clusterMaker.addItem(tempRecp.get(i));			//for markers and clusters
+//    			clusterMaker.addItem(tempRecp.get(i));			//for markers and clusters
     			
     			
 //    			Circle circle = googleMap.addCircle(new CircleOptions()
@@ -738,7 +739,7 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
 		
 		if(receptions.isEmpty()==false)
 		{
-			System.out.println(msg+"Makers size  = "+makers.size()+","+models.size());
+//			System.out.println(msg+"Makers size  = "+makers.size()+","+models.size());
 			System.out.println("FilterActivity Button");
 			
 			Intent intent = new Intent(this, FilterActivity.class);
@@ -1040,7 +1041,7 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
 		@Override
 		protected ArrayList<Reception> doInBackground(Void... params) {
 			
-			System.out.println(msg+"Count = "+dbHandler.getAllReceptionsCount());
+			System.out.println(msg+" My Receptions Count = "+dbHandler.getPathReceptionsCount());
 			if(dbHandler.getPathReceptionsCount()>0)
 			{
 				ArrayList<Reception> receptionList = dbHandler.getPathReceptions(0);
@@ -1097,6 +1098,22 @@ public class MainActivity extends FragmentActivity	implements  OnClusterClickLis
 			}
 		}
 	}
+	
+	public boolean checkIfOnline(Context context)
+	{
+		//Connectivity Manager handles management of network connection
+		ConnectivityManager conManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		//NetworkInfo gets instance of current network state 
+		NetworkInfo networkInfo = conManager.getActiveNetworkInfo();
+		if(networkInfo!=null && networkInfo.isConnected()) // networkInfo returns null in airplane mode
+		{
+			Toast.makeText(context, "Device is online", Toast.LENGTH_SHORT);
+			return true;
+		}
+		return false;
+		
+	}
+	
 //	public void showMyReceptions()
 //	{
 //		System.out.println(msg+"count = "+dbHandler.getPathReceptionsCount());

@@ -453,21 +453,20 @@ containing a value of this type.
     public static final class id {
         public static final int CancelButton=0x7f090018;
         public static final int OkButton=0x7f090017;
-        public static final int action_save_current_reception=0x7f090033;
-        public static final int action_settings=0x7f090032;
-        public static final int action_show_my_receptions=0x7f090034;
-        public static final int autoSaveSwitch=0x7f09002b;
+        public static final int action_save_current_reception=0x7f090032;
+        public static final int action_settings=0x7f090031;
+        public static final int action_show_my_receptions=0x7f090033;
         public static final int autoUploadSwitch=0x7f09002a;
         public static final int book_now=0x7f090010;
         public static final int buyButton=0x7f09000a;
         public static final int buy_now=0x7f09000f;
         public static final int buy_with_google=0x7f09000e;
-        public static final int checkedText=0x7f090031;
+        public static final int checkedText=0x7f090030;
         public static final int classic=0x7f090011;
         public static final int container=0x7f090019;
         public static final int filterButton=0x7f09001d;
         public static final int filter_text=0x7f090021;
-        public static final int globeIcon=0x7f09002f;
+        public static final int globeIcon=0x7f09002e;
         public static final int grayscale=0x7f090012;
         public static final int holo_dark=0x7f090005;
         public static final int holo_light=0x7f090006;
@@ -491,18 +490,18 @@ containing a value of this type.
         public static final int sandbox=0x7f090008;
         public static final int satellite=0x7f090002;
         public static final int saveButton=0x7f090027;
-        public static final int searchIcon=0x7f090030;
+        public static final int searchIcon=0x7f09002f;
         public static final int searchLocation=0x7f09001b;
         public static final int selectionDetails=0x7f09000b;
         public static final int serviceContainer=0x7f090028;
         public static final int servicesListView=0x7f090029;
-        public static final int strengthcontainer=0x7f09002d;
-        public static final int strengthsListView=0x7f09002e;
+        public static final int strengthcontainer=0x7f09002c;
+        public static final int strengthsListView=0x7f09002d;
         public static final int strict_sandbox=0x7f090009;
         public static final int terrain=0x7f090003;
         public static final int text=0x7f090014;
         public static final int textView1=0x7f09001c;
-        public static final int trackSwitch=0x7f09002c;
+        public static final int trackSwitch=0x7f09002b;
         public static final int wrap_content=0x7f09000d;
     }
     public static final class integer {

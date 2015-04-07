@@ -24,6 +24,20 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 	}
 	
 	@Override
+	protected String getClusterText(int bucket) {
+        
+		super.getClusterText(bucket);
+        return String.valueOf(bucket);
+    }
+	
+	@Override
+	protected int getBucket(Cluster<Reception> cluster) {
+        super.getBucket(cluster);
+        
+        return cluster.getSize();
+    }
+	
+	@Override
 	protected boolean shouldRenderAsCluster(Cluster<Reception> cluster)
 	{
 		super.shouldRenderAsCluster(cluster);
