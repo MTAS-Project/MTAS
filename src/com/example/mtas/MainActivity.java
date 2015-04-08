@@ -408,7 +408,6 @@ public class MainActivity extends FragmentActivity implements
 
 			@Override
 			public boolean onQueryTextSubmit(String query) {
-				// TODO Auto-generated method stub
 
 				String location = query;
 				if (location.equals("") == false && location != null)// i changed it to AND from OR
@@ -422,7 +421,6 @@ public class MainActivity extends FragmentActivity implements
 
 			@Override
 			public boolean onQueryTextChange(String newText) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		});
