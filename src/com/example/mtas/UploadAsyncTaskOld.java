@@ -15,7 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
-public class UploadAsyncTask extends AsyncTask<Context, Void, Void>{
+public class UploadAsyncTaskOld extends AsyncTask<Context, Void, Void>{
 
 	private DBHandler dbHandler;
 	SharedPreferences sPref;

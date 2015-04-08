@@ -1,179 +1,205 @@
 package com.example.mtas;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.annotation.SuppressLint;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Looper;
-import android.os.PowerManager;
-import android.telephony.CellInfo;
-import android.telephony.CellInfoGsm;
-import android.telephony.CellSignalStrengthGsm;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
-public class TrackRouteService extends Service	{
+import com.google.android.gms.maps.model.LatLng;
 
-	 private DBHandler dbHandler;
-	 private Location location;
-	 private RecordReceptionThread recordReception;
-	 private TelephonyManager tManager;
-	 private MyCustomPhoneListener phoneListener = MyCustomPhoneListener.getInstance();
-	 
-	 String msg = "MTAS ";
-	 
-//	 private Timer timer = new Timer();
-//	 private TimerTask tt = new TimerTask() {
-//	        @Override
-//	        public void run() 
-//	        {
-//	        	
-//	            //here we have to record receptions along the track
-//
-//	        	TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-//	        	
-//	        	int signalStrength = 0;
-//	        	
-//	        	for(CellInfo cellInfo:tManager.getAllCellInfo())
-//	        	{
-//	        		if(cellInfo instanceof CellInfoGsm)
-//	        		{
-//	        			signalStrength = ((CellInfoGsm) cellInfo).getCellSignalStrength().getLevel();
-//	        		}
-//	        	}
-//	        	
-//	        	
-////	        	int signalStrength =  0;
-//	        	
-//	        	
-//	        	String provider = tManager.getNetworkOperatorName();
-//	        	String service = getServiceType(tManager);
-//	        	
-//	        	String maker = Build.MANUFACTURER;
-//	        	String model = Build.MODEL;
-//	        	
-//	        	LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//	    	    Criteria criteria = new Criteria();
-//	    	    	
-//	    	    String serviceProvider = locationManager.getBestProvider(criteria, false);
-//	    	    location = locationManager.getLastKnownLocation(serviceProvider);
-////	    		myCustomLocationListener locListener = new myCustomLocationListener();
-////	    		
-////	    		
-////	        	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
-////	    	    
-//	        	
-//	    	    
-//	    	    if(location!=null)
-//	            {
-//	    	    	Reception reception = new Reception();
-//		    	    reception.setMaker(maker);
-//		    	    reception.setModel(model);
-//		    	    reception.setNetworkOp(provider);
-//		    	    reception.setServiceType(service);
-//		    	    reception.setSignalStrength(signalStrength);
-//		    	    reception.setTimeStamp(null);
-//	    	    	reception.setLocation(new LatLng(location.getLatitude(),location.getLongitude()));
-//	    	    	
-////	    	    	dbHandler.addReception(reception);
-//	    	    	System.out.print("TR: ");reception.display();
-//	    	    	System.out.println("Service TR Location : "+ location.getLatitude()+","+location.getLongitude());
-//	            }
-//	            else
-//	            {
-//	            	
-//	            	System.out.println("Service TR Location : Not Found");
-//	            }
-//	    	   
-//	    	   
-//	        }
-//	 }
-	  
-	
-	
+public class TrackRouteService extends Service {
+
+
+	String  currentNetworkType;
+	int currentSignalStrengthIntLevel;
+
+	private DBHandler dbHandler;
+	private TelephonyManager telephonyManager;
+	private MyCustomPhoneListener myListener = new MyCustomPhoneListener();
+
+	private LocationManager locationManager;
+	private LocationListener locationListener = new MyCustomLocationListener();
+
+	// private MyCustomPhoneListener myListener = new MyCustomPhoneListener();
+
+	String msg = "MTAS ";
+
+
+	private String getNetwork() {
+		return telephonyManager.getNetworkOperatorName();
+	}
+
+	private String getManufacturer() {
+		return Build.MANUFACTURER;
+	}
+
+	private String getModel() {
+		return Build.MODEL;
+	}
+
+
 	@Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-		
-		System.out.println(msg+"TRACKROUTESERVICE: On Start Command !");
-//		dbHandler = new DBHandler(getApplicationContext());
-		
-//		int timeInterval = 10000;
-		
-		tManager = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-		
-		//************************START LISTENING SIGNAL STRENGTH ********************************
-        try
-        {
-        	tManager.listen(phoneListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-        }
-        catch(Exception e)
-        {
-        	e.printStackTrace();
-        }
-        //****************************************************************************************
-        
-		Toast.makeText(this, "Track Route Service Started !", Toast.LENGTH_SHORT).show();
-	    recordReception = new RecordReceptionThread();
-	   
-	    IntentFilter intentfilter = new IntentFilter();
-	    intentfilter.addAction("com.example.mtas.RecordReceptionThread");
-		registerReceiver(recordReception, intentfilter);
-		
-		recordReception.setAlarm(TrackRouteService.this);
-		
-		
-		
-//	    timer.scheduleAtFixedRate(tt, 0, timeInterval);
-		
-		
-		
-        return START_STICKY;
-    }
+		int autosaveInterval=15*60;//no of seconds
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        
-        System.out.println(msg+"TRACKROUTESERVICE: On DESTROY !");
-//        timer.cancel();
-//        timer.purge();
-        
-        //********************************** STOP LISTENING SIGNAL STRENGTH **********************
-        try
-        {
-        	tManager.listen(phoneListener, PhoneStateListener.LISTEN_NONE);
-        }
-        catch(Exception e)
-        {
-        	e.printStackTrace();
-        }
-        //****************************************************************************************
-        
-        recordReception.cancelAlarm(TrackRouteService.this);
-        unregisterReceiver(recordReception);
-        
-        Toast.makeText(this, "Track Route Service Disabled", Toast.LENGTH_SHORT).show();
-    }
+//		System.out.println(msg + "TRACKROUTESERVICE: On Start Command !");
+		dbHandler = new DBHandler(getApplicationContext());
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+		telephonyManager = (TelephonyManager) getBaseContext()
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		// strengthValue and networkType is changed using listeners
+		telephonyManager.listen(myListener,
+				PhoneStateListener.LISTEN_SIGNAL_STRENGTHS
+						| PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+
+		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				autosaveInterval * 1000, 0, locationListener);
+
+		Toast.makeText(this, "Autosave Enabled @ "+autosaveInterval/60+"mins time interval",
+				Toast.LENGTH_LONG).show();
+		return START_STICKY;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+//		System.out.println(msg + "TRACKROUTESERVICE: On DESTROY !");
+		telephonyManager.listen(myListener, PhoneStateListener.LISTEN_NONE);
+		locationManager.removeUpdates(locationListener);
+		Toast.makeText(this, "Autosave Disabled", Toast.LENGTH_LONG)
+				.show();
+	}
+
+
+	private class MyCustomPhoneListener extends PhoneStateListener {
+
+		@Override
+		public void onSignalStrengthsChanged(SignalStrength ss) {
+			super.onSignalStrengthsChanged(ss);
+			asuToString(ss.getGsmSignalStrength());
+		}
+
+		@Override
+		public void onDataConnectionStateChanged(int state, int networkType) {
+			super.onDataConnectionStateChanged(state, networkType);
+			networkTypeToString(networkType);
+		}
+
+		private String networkTypeToString(int networkType) {
+			switch (networkType) {
+			case 1: {
+				return currentNetworkType="G"; // GRPS
+			}
+			case 2: {
+				return currentNetworkType="E"; // EDGE
+			}
+			case 11: {
+				return currentNetworkType="2G";
+			}
+			case 3: {
+				return currentNetworkType="3G";
+			}
+			case 10: {
+				return currentNetworkType="H";
+			}
+			case 13: {
+				return currentNetworkType="4G";
+			}
+			case 15: {
+				return currentNetworkType="H+";
+			}
+			}
+			return "Unkown("+networkType+")"; // this should not be returned, cater for all unknown types
+		}
+
+		private String asuToString(int asu) {
+			if (asu <= 2 || asu == 99) {
+				currentSignalStrengthIntLevel=0;
+				return "No service";
+			} else if (asu > 2 && asu <= 5) {
+				currentSignalStrengthIntLevel=1;
+				return "Weak";
+			} else if (asu > 5 && asu <= 8) {
+				currentSignalStrengthIntLevel=2;
+				return "Fair";
+			} else if (asu > 8 && asu <= 12) {
+				currentSignalStrengthIntLevel=3;
+				return "Good";
+			} else if (asu > 12) {
+				currentSignalStrengthIntLevel=4;
+				return "Excellent";
+			}
+			currentSignalStrengthIntLevel=-1;	//Strength -1 means unknown signal strength 
+			return "Unknown"; // this should not appear
+		}
+
+	}
+
+	private class MyCustomLocationListener implements LocationListener {
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+	//try turning AutoSave off
+		}
+
+		@SuppressLint("SimpleDateFormat") @Override
+		public void onLocationChanged(Location loc) {
+			Reception reception = new Reception();
+
+			reception.setNetworkOp(getNetwork());
+			reception.setServiceType(currentNetworkType);
+			reception.setSignalStrength(currentSignalStrengthIntLevel);
+			reception.setMaker(getManufacturer());
+			reception.setModel(getModel());
+			reception.setLocation(new LatLng(loc.getLatitude(), loc
+					.getLongitude()));
+
+			final SimpleDateFormat sdf = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss.000");
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+			String date = sdf.format(new Date());
+
+			reception.setTimeStamp(date);
+
+			 dbHandler.getWritableDatabase();
+			 dbHandler.addPathReception(reception);
+
+			Toast.makeText(getApplicationContext(),
+					"Reception saved", Toast.LENGTH_SHORT).show();
+
+		}
+	    
+
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

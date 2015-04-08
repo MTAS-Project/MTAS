@@ -1,9 +1,24 @@
 package com.example.mtas;
 
-import java.util.ArrayList;
 
-public class MTAS {
-	
+public class HelpfulStaticFuncs {
+    public static String capitalize(final String str) {
+        if (str.length() == 0) {
+            return "";
+        }
+
+        final char[] buffer = str.toCharArray();
+        buffer[0] = Character.toTitleCase(buffer[0]);
+
+        for (int i = 1; i < buffer.length; i++) {
+            if (buffer[i - 1] == ' ') {
+                buffer[i] = Character.toTitleCase(buffer[i]);
+            }
+        }
+        return new String(buffer);
+    }
+
+}
 //	private MapData mapData;
 //	
 //	MTAS()
@@ -42,4 +57,3 @@ public class MTAS {
 //		return mapData.getFilteredReceptions(networkOp);
 //	}
 
-}

@@ -1,11 +1,8 @@
 package com.example.mtas;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,16 +11,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.PowerManager;
-import android.telephony.PhoneStateListener;
-import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
-import android.text.format.DateFormat;
-import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 public class RecordReceptionThread extends BroadcastReceiver
 {

@@ -35,15 +35,15 @@
         android:background="#B3FFFFFF"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ProgressBar
-        android:id="@+id/mainProgress"
+<!--     <ProgressBar
+        android:id="@+id/mainProgress4"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchLocation"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="123dp" />
-
+ -->
     <Button
         android:id="@+id/filterButton"
         style="?android:attr/buttonStyleSmall"
@@ -70,7 +70,25 @@
         android:background="#CCFFFFFF"
         android:src="@android:drawable/ic_popup_sync" />
 
-    <TextView
+    <ProgressBar
+        android:id="@+id/mainProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/filterButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="23dp"
+        android:layout_marginRight="6dp"
+        android:visibility="invisible" />
+
+<!--     <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/refreshButton"
+        android:layout_alignLeft="@+id/refreshButton" />
+    
+ -->   
+ 	<TextView
         android:id="@+id/lastUpdateTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,6 +98,7 @@
         android:background="#B3FFFFFF"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
     
 </RelativeLayout>
 

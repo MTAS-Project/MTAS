@@ -2,14 +2,13 @@ package com.example.mtas;
 
 import java.util.ArrayList;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.format.DateFormat;
+
+import com.google.android.gms.maps.model.LatLng;
 
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -156,11 +155,13 @@ public class DBHandler extends SQLiteOpenHelper {
 		System.out.println(msg+"DBHandler: Get Path Receptions !");
 		
 		ArrayList<Reception> receptions = new ArrayList<Reception>();
-		String selectQuery = "SELECT  * FROM " + Path_Receptions ;
-		if(getPathReceptionsCount()>0)
+		if(getPathReceptionsCount()==rowNo)
 		{
-			selectQuery+= " where "+ P_key +">"+rowNo;
+			return receptions;
+			
 		}
+		String selectQuery = "SELECT  * FROM " + Path_Receptions +" where "+ P_key +">"+rowNo;
+		
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		Cursor cursor = db.rawQuery(selectQuery, null);
@@ -181,10 +182,7 @@ public class DBHandler extends SQLiteOpenHelper {
 				
 				receptions.add(reception);
 				
-//				System.out.println(msg+cursor.getString(0));
-//				System.out.print(msg);reception.display();
 			} while (cursor.moveToNext());
-		//}
 		db.close();
 		// return contact list
 		return receptions;
@@ -202,7 +200,6 @@ public class DBHandler extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery(selectQuery, null);
 		cursor.moveToFirst();
 		// looping through all rows and adding to list
-	//	if (cursor.moveToFirst()) {
 			do {
 				Reception reception = new Reception();
 				reception.setMaker(cursor.getString(1));

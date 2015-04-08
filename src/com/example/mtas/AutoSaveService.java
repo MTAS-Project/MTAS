@@ -1,23 +1,16 @@
 package com.example.mtas;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
-
-import java.sql.Timestamp;
-import java.util.Timer;
-import java.util.TimerTask;
-
 //import com.example.mtas.SaveCurrentReception.myCustomPhoneListener;
-import com.google.android.gms.maps.model.LatLng;
 
 public class AutoSaveService extends Service {
     // private SQLiteDatabase db = openOrCreateDatabase();

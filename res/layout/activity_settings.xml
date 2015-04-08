@@ -8,18 +8,18 @@
     tools:ignore="MergeRootFrame">
 
     <Switch
+        android:id="@+id/autoUploadSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Auto Upload"
-        android:id="@+id/autoUploadSwitch"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="48dp"
         android:checked="true"
         android:onClick="onAutoUploadClicked"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="Auto Upload" />
 
     <Switch
-        android:id="@+id/trackSwitch"
+        android:id="@+id/autoSaveSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -27,8 +27,9 @@
         android:layout_below="@+id/autoUploadSwitch"
         android:layout_marginTop="49dp"
         android:checked="true"
-        android:text="Auto Save" 
-        android:onClick="onAutoSaveClicked"/>
+        android:hapticFeedbackEnabled="false"
+        android:onClick="onAutoSaveClicked"
+        android:text="Auto Save" />
     
 </RelativeLayout>
 

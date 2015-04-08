@@ -3,30 +3,156 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#4affa71e"
     tools:context="com.example.mtas.SaveCurrentReception"
-    tools:ignore="MergeRootFrame" 
-    android:background="#4affa71e">
-
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/receptionTextView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    tools:ignore="MergeRootFrame" >
 
     <Button
         android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/receptionTextView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:background="#ff009f4b"
-        android:onClick="saveReception"
+        android:onClick="onClickSaveReceptionButton"
         android:text="        Save Reception       "
         android:textColor="#ffffffff" />
-    
-</RelativeLayout>
 
+    <TextView
+        android:id="@+id/networkTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/saveButton"
+        android:layout_marginTop="4dp"
+        android:textSize="15sp"
+        android:text="Network: " />
+
+    <TextView
+        android:id="@+id/networkTypeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/saveButton"
+        android:layout_below="@+id/networkTextView"
+        android:layout_marginTop="8dp"
+        android:text="Network Type: "
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/strengthTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/saveButton"
+        android:layout_below="@+id/networkTypeTextView"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:text="Signal Strength: " />
+
+    <TextView
+        android:id="@+id/makeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/saveButton"
+        android:layout_below="@+id/strengthTextView"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:text="Make: " />
+
+    <TextView
+        android:id="@+id/modelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/saveButton"
+        android:layout_below="@+id/makeTextView"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:text="Model: " />
+
+    <TextView
+        android:id="@+id/latitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/saveButton"
+        android:layout_below="@+id/modelTextView"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:text="Latitude: " />
+
+    <TextView
+        android:id="@+id/longitudeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/saveButton"
+        android:layout_below="@+id/latitudeTextView"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:text="Longitude: " />
+
+    <TextView
+        android:id="@+id/networkValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/networkTypeTextView"
+        android:layout_toEndOf="@id/strengthTextView"
+        android:textSize="15sp"
+        android:text="Unknown" />
+
+    <TextView
+        android:id="@+id/networkTypeValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/strengthTextView"
+        android:layout_alignLeft="@+id/networkValueTextView"
+        android:textSize="15sp"
+        android:text="Unknown" />
+
+    <TextView
+        android:id="@+id/strengthValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/strengthTextView"
+        android:layout_alignBottom="@+id/strengthTextView"
+        android:layout_alignLeft="@+id/networkTypeValueTextView"
+        android:textSize="15sp"
+        android:text="Unknown" />
+
+    <TextView
+        android:id="@+id/makeValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/modelTextView"
+        android:layout_alignLeft="@+id/strengthValueTextView"
+        android:textSize="15sp"
+        android:text="Unknown" />
+
+    <TextView
+        android:id="@+id/modelValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/latitudeTextView"
+        android:layout_alignLeft="@+id/makeValueTextView"
+        android:textSize="15sp"
+        android:text="Unknown" />
+
+    <TextView
+        android:id="@+id/latitudeValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/longitudeTextView"
+        android:layout_alignLeft="@+id/modelValueTextView"
+        android:textSize="15sp"
+        android:text="Unknown" />
+
+    <TextView
+        android:id="@+id/longitudeValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/longitudeTextView"
+        android:layout_alignBottom="@+id/longitudeTextView"
+        android:layout_alignLeft="@+id/latitudeValueTextView"
+        android:textSize="15sp"
+        android:text="Unknown" />
+
+</RelativeLayout>

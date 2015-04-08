@@ -11,6 +11,6 @@ Future:
 	-big downloaded data? ask server to send limited amount of data(receptions)
 	-so much uploaded data (stored in local db for “my receps” activity)? remove some 	uploaded receptions. but not those which are not uploaded yet.
 
-
+	=support all remaining network types (telephonyManager.getNetworkType())
 
 
