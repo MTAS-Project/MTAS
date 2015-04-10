@@ -211,10 +211,13 @@ public class MainActivity extends FragmentActivity implements
 
 		}
 		if (id == R.id.action_show_my_receptions) {
-			new showMyReceptions().execute();
+			Intent intent = new Intent(this, MyReceptions.class);
+			startActivity(intent);
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 
 	/**
 	 * Called when the activity is about to become visible.
@@ -296,7 +299,6 @@ public class MainActivity extends FragmentActivity implements
 	public void onDestroy() {
 		super.onDestroy();
 		System.out.println(msg + "The onDestroy() event");
-//		googleMap.setMyLocationEnabled(false);
 		for (ServerHandlerAsyncTask task : serverHandlerAsyncTasks) {
 			task.cancel(true); // true becoz interrupting 'download' will cause
 								// no
@@ -929,65 +931,68 @@ public class MainActivity extends FragmentActivity implements
 
 		// Toast.makeText(MainActivity.this, "Work in Progress :",
 		// Toast.LENGTH_SHORT).show();
+		ClusterReportFragment clusterReport = new ClusterReportFragment();
+		clusterReport.setSelectedCluster(cluster);
+		clusterReport.show(getFragmentManager(), "Cluster Report");
 		return false;
 
 	}
 
-	public class showMyReceptions extends
-			AsyncTask<Void, Void, ArrayList<Reception>> {
-		@Override
-		protected ArrayList<Reception> doInBackground(Void... params) {
-
-			System.out.println(msg + " My Receptions Count = "
-					+ dbHandler.getPathReceptionsCount());
-			if (dbHandler.getPathReceptionsCount() > 0) {
-				ArrayList<Reception> receptionList = dbHandler
-						.getPathReceptions(0);
-				return receptionList;
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<Reception> receptionList) {
-
-			if (receptionList != null) {
-				for (int i = 0; i < receptionList.size(); i++) {
-
-					int color = 0;
-					switch (receptionList.get(i).getSignalStrength()) {
-					case 1: {
-						color = Color.RED;
-
-						break;
-					}
-					case 2: {
-						color = Color.YELLOW;
-
-						break;
-					}
-					case 3: {
-						color = android.R.color.holo_orange_dark;
-
-						break;
-					}
-					case 4: {
-						color = Color.GREEN;
-						break;
-					}
-					}
-					Circle circle = googleMap.addCircle(new CircleOptions()
-							.center(receptionList.get(i).getLocation())
-							.radius(10).fillColor(color).strokeColor(color)
-							.zIndex(100));
-
-				}
-			} else {
-				Toast.makeText(getApplicationContext(),
-						"No Saved Receptions Yet", Toast.LENGTH_LONG).show();
-			}
-		}
-	}
+//	public class showMyReceptions extends
+//			AsyncTask<Void, Void, ArrayList<Reception>> {
+//		@Override
+//		protected ArrayList<Reception> doInBackground(Void... params) {
+//
+//			System.out.println(msg + " My Receptions Count = "
+//					+ dbHandler.getPathReceptionsCount());
+//			if (dbHandler.getPathReceptionsCount() > 0) {
+//				ArrayList<Reception> receptionList = dbHandler
+//						.getPathReceptions(0);
+//				return receptionList;
+//			}
+//			return null;
+//		}
+//
+//		@Override
+//		protected void onPostExecute(ArrayList<Reception> receptionList) {
+//
+//			if (receptionList != null) {
+//				for (int i = 0; i < receptionList.size(); i++) {
+//
+//					int color = 0;
+//					switch (receptionList.get(i).getSignalStrength()) {
+//					case 1: {
+//						color = Color.RED;
+//
+//						break;
+//					}
+//					case 2: {
+//						color = Color.YELLOW;
+//
+//						break;
+//					}
+//					case 3: {
+//						color = android.R.color.holo_orange_dark;
+//
+//						break;
+//					}
+//					case 4: {
+//						color = Color.GREEN;
+//						break;
+//					}
+//					}
+//					Circle circle = googleMap.addCircle(new CircleOptions()
+//							.center(receptionList.get(i).getLocation())
+//							.radius(10).fillColor(color).strokeColor(color)
+//							.zIndex(100));
+//
+//				}
+//			} else {
+//				Toast.makeText(getApplicationContext(),
+//						"No Saved Receptions Yet", Toast.LENGTH_LONG).show();
+//			}
+//		}
+//	}
 
 	public boolean checkIfOnline(Context context) {
 		// Connectivity Manager handles management of network connection

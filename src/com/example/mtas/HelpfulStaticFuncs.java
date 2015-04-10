@@ -17,6 +17,9 @@ public class HelpfulStaticFuncs {
         }
         return new String(buffer);
     }
+    public static void switchAutoSaveService(){
+    	
+    }
 
 }
 //	private MapData mapData;

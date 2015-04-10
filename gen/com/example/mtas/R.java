@@ -452,89 +452,94 @@ containing a value of this type.
         public static final int yellowhplus=0x7f020042;
     }
     public static final class id {
-        public static final int CancelButton=0x7f090018;
-        public static final int OkButton=0x7f090017;
-        public static final int action_save_current_reception=0x7f09003f;
-        public static final int action_settings=0x7f09003e;
-        public static final int action_show_my_receptions=0x7f090040;
-        public static final int autoSaveSwitch=0x7f090038;
-        public static final int autoUploadSwitch=0x7f090037;
+        public static final int CancelButton=0x7f09001b;
+        public static final int OkButton=0x7f09001a;
+        public static final int action_save_current_reception=0x7f090042;
+        public static final int action_settings=0x7f090041;
+        public static final int action_show_my_receptions=0x7f090043;
+        public static final int autoSaveSwitch=0x7f09003b;
+        public static final int autoUploadSwitch=0x7f09003a;
         public static final int book_now=0x7f090010;
         public static final int buyButton=0x7f09000a;
         public static final int buy_now=0x7f09000f;
         public static final int buy_with_google=0x7f09000e;
-        public static final int checkedText=0x7f09003d;
+        public static final int checkedText=0x7f090040;
         public static final int classic=0x7f090011;
-        public static final int container=0x7f090019;
-        public static final int filterButton=0x7f09001d;
-        public static final int filter_text=0x7f090021;
-        public static final int globeIcon=0x7f09003b;
+        public static final int container=0x7f09001c;
+        public static final int filterButton=0x7f090020;
+        public static final int filter_text=0x7f090024;
+        public static final int globeIcon=0x7f09003e;
         public static final int grayscale=0x7f090012;
+        public static final int header=0x7f090017;
         public static final int holo_dark=0x7f090005;
         public static final int holo_light=0x7f090006;
         public static final int hybrid=0x7f090004;
-        public static final int lastUpdateTV=0x7f090020;
-        public static final int latitudeTextView=0x7f09002c;
-        public static final int latitudeValueTextView=0x7f090033;
-        public static final int linearLayout1=0x7f090016;
-        public static final int longitudeTextView=0x7f09002d;
-        public static final int longitudeValueTextView=0x7f090034;
-        public static final int mainProgress=0x7f09001f;
-        public static final int makeTextView=0x7f09002a;
-        public static final int makeValueTextView=0x7f090031;
-        public static final int makersListView=0x7f090022;
-        public static final int map=0x7f09001a;
+        public static final int lastUpdateTV=0x7f090023;
+        public static final int latitudeTextView=0x7f09002f;
+        public static final int latitudeValueTextView=0x7f090036;
+        public static final int linearLayout1=0x7f090019;
+        public static final int longitudeTextView=0x7f090030;
+        public static final int longitudeValueTextView=0x7f090037;
+        public static final int mainProgress=0x7f090022;
+        public static final int makeTextView=0x7f09002d;
+        public static final int makeValueTextView=0x7f090034;
+        public static final int makersListView=0x7f090025;
+        public static final int map=0x7f09001d;
         public static final int match_parent=0x7f09000c;
-        public static final int modelTextView=0x7f09002b;
-        public static final int modelValueTextView=0x7f090032;
-        public static final int modelsListView=0x7f090023;
+        public static final int modelTextView=0x7f09002e;
+        public static final int modelValueTextView=0x7f090035;
+        public static final int modelsListView=0x7f090026;
         public static final int monochrome=0x7f090013;
-        public static final int networkContainer=0x7f090024;
-        public static final int networkTextView=0x7f090027;
-        public static final int networkTypeTextView=0x7f090028;
-        public static final int networkTypeValueTextView=0x7f09002f;
-        public static final int networkValueTextView=0x7f09002e;
-        public static final int networksListView=0x7f090025;
+        public static final int networkContainer=0x7f090027;
+        public static final int networkTextView=0x7f09002a;
+        public static final int networkTypeTextView=0x7f09002b;
+        public static final int networkTypeValueTextView=0x7f090032;
+        public static final int networkValueTextView=0x7f090031;
+        public static final int networksListView=0x7f090028;
         public static final int none=0x7f090000;
         public static final int normal=0x7f090001;
-        public static final int pager=0x7f090015;
+        public static final int pager=0x7f090018;
         public static final int production=0x7f090007;
-        public static final int refreshButton=0x7f09001e;
+        public static final int refreshButton=0x7f090021;
         public static final int sandbox=0x7f090008;
         public static final int satellite=0x7f090002;
-        public static final int saveButton=0x7f090026;
-        public static final int searchIcon=0x7f09003c;
-        public static final int searchLocation=0x7f09001b;
+        public static final int saveButton=0x7f090029;
+        public static final int scrollView1=0x7f090015;
+        public static final int searchIcon=0x7f09003f;
+        public static final int searchLocation=0x7f09001e;
         public static final int selectionDetails=0x7f09000b;
-        public static final int serviceContainer=0x7f090035;
-        public static final int servicesListView=0x7f090036;
-        public static final int strengthTextView=0x7f090029;
-        public static final int strengthValueTextView=0x7f090030;
-        public static final int strengthcontainer=0x7f090039;
-        public static final int strengthsListView=0x7f09003a;
+        public static final int serviceContainer=0x7f090038;
+        public static final int servicesListView=0x7f090039;
+        public static final int strengthTextView=0x7f09002c;
+        public static final int strengthValueTextView=0x7f090033;
+        public static final int strengthcontainer=0x7f09003c;
+        public static final int strengthsListView=0x7f09003d;
         public static final int strict_sandbox=0x7f090009;
+        public static final int table=0x7f090016;
         public static final int terrain=0x7f090003;
         public static final int text=0x7f090014;
-        public static final int textView1=0x7f09001c;
+        public static final int textView1=0x7f09001f;
         public static final int wrap_content=0x7f09000d;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f0a0000;
     }
     public static final class layout {
-        public static final int activity_filter=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int activity_maker_fragment=0x7f030002;
-        public static final int activity_model_fragment=0x7f030003;
-        public static final int activity_network_fragement=0x7f030004;
-        public static final int activity_save_current_reception=0x7f030005;
-        public static final int activity_service_fragment=0x7f030006;
-        public static final int activity_settings=0x7f030007;
-        public static final int activity_strength_fragment=0x7f030008;
-        public static final int activity_welcome=0x7f030009;
-        public static final int simple_list_item_checked=0x7f03000a;
-        public static final int simple_spinner_item=0x7f03000b;
-        public static final int text_bubble=0x7f03000c;
+        public static final int activity_cluster_report=0x7f030000;
+        public static final int activity_filter=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_maker_fragment=0x7f030003;
+        public static final int activity_model_fragment=0x7f030004;
+        public static final int activity_my_receptions=0x7f030005;
+        public static final int activity_network_fragement=0x7f030006;
+        public static final int activity_save_current_reception=0x7f030007;
+        public static final int activity_service_fragment=0x7f030008;
+        public static final int activity_settings=0x7f030009;
+        public static final int activity_strength_fragment=0x7f03000a;
+        public static final int activity_welcome=0x7f03000b;
+        public static final int simple_list_item_checked=0x7f03000c;
+        public static final int simple_spinner_item=0x7f03000d;
+        public static final int text_bubble=0x7f03000e;
     }
     public static final class menu {
         public static final int filter=0x7f0d0000;
@@ -656,36 +661,44 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f070005;
         public static final int create_calendar_title=0x7f070004;
         public static final int decline=0x7f070003;
+        public static final int hello_world=0x7f070037;
         public static final int logo_globe=0x7f070023;
         public static final int logo_magnifier=0x7f070024;
-        public static final int pref_default_display_name=0x7f07003a;
-        public static final int pref_description_social_recommendations=0x7f070038;
+        public static final int pref_default_display_name=0x7f07003d;
+        public static final int pref_description_social_recommendations=0x7f07003b;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f07003c;
+        public static final int pref_header_data_sync=0x7f07003f;
         /**  <string name="title_activity_settings">Settings</string>
  
  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f070036;
+        public static final int pref_header_general=0x7f070039;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f07003f;
-        public static final int pref_ringtone_silent=0x7f070042;
-        public static final int pref_title_add_friends_to_messages=0x7f07003b;
-        public static final int pref_title_display_name=0x7f070039;
-        public static final int pref_title_new_message_notifications=0x7f070040;
-        public static final int pref_title_ringtone=0x7f070041;
-        public static final int pref_title_social_recommendations=0x7f070037;
-        public static final int pref_title_sync_frequency=0x7f07003d;
-        public static final int pref_title_system_sync_settings=0x7f07003e;
-        public static final int pref_title_vibrate=0x7f070043;
+        public static final int pref_header_notifications=0x7f070042;
+        public static final int pref_ringtone_silent=0x7f070045;
+        public static final int pref_title_add_friends_to_messages=0x7f07003e;
+        public static final int pref_title_display_name=0x7f07003c;
+        public static final int pref_title_new_message_notifications=0x7f070043;
+        public static final int pref_title_ringtone=0x7f070044;
+        public static final int pref_title_social_recommendations=0x7f07003a;
+        public static final int pref_title_sync_frequency=0x7f070040;
+        public static final int pref_title_system_sync_settings=0x7f070041;
+        public static final int pref_title_vibrate=0x7f070046;
         public static final int store_picture_message=0x7f070001;
         public static final int store_picture_title=0x7f070000;
+        public static final int title_activity_cluster_report=0x7f070038;
         public static final int title_activity_filter=0x7f070029;
         public static final int title_activity_maker_fragment=0x7f070034;
         public static final int title_activity_model_fragment=0x7f070035;
+        /** 
+         version resource copy/pasted from imported library project at 
+         google-play-services_lib/res/values/version.xml
+    
+         */
+        public static final int title_activity_my_receptions=0x7f070036;
         public static final int title_activity_recorded_receptions=0x7f070033;
         public static final int title_activity_save_current_reception=0x7f070028;
         public static final int title_activity_section_1=0x7f07002f;
