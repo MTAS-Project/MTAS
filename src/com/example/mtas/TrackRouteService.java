@@ -54,7 +54,7 @@ public class TrackRouteService extends Service {
 
 	@Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-		int autosaveInterval=15*60;//no of seconds
+		int autosaveInterval=30*60;//no of seconds
 
 //		System.out.println(msg + "TRACKROUTESERVICE: On Start Command !");
 		dbHandler = new DBHandler(getApplicationContext());
@@ -68,7 +68,7 @@ public class TrackRouteService extends Service {
 
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				autosaveInterval * 1000, 0, locationListener);
+				autosaveInterval * 1000, 500, locationListener);
 
 		Toast.makeText(this, "Autosave Enabled @ "+autosaveInterval/60+"mins time interval",
 				Toast.LENGTH_LONG).show();
