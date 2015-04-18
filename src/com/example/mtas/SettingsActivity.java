@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class SettingsActivity extends Activity {
 
@@ -31,20 +32,9 @@ public class SettingsActivity extends Activity {
 		autoSave = (Switch) findViewById(R.id.autoSaveSwitch);
 
 		loadPreferences();
-
 	}
 
 	private void loadPreferences() {
-
-		// if (sharedPreferences.contains("autosave")) {
-		// autoSave = (Switch) findViewById(R.id.autoSaveSwitch);
-		// boolean autoSaveOn = sharedPreferences.getBoolean("autosave", true);
-		// autoSave.setChecked(autoSaveOn);
-		// } else {
-		// editor.putBoolean("autosave", true);
-		// editor.commit();
-		// startService(new Intent(this, AutoSaveService.class));
-		// }
 		if (sharedPreferences.contains("autoupload")) {
 			autoUpload = (Switch) findViewById(R.id.autoUploadSwitch);
 			boolean autoUploadOn = sharedPreferences.getBoolean("autoupload",
@@ -64,7 +54,6 @@ public class SettingsActivity extends Activity {
 		} else {
 			editor.putBoolean("autosave", true);
 			editor.commit();
-			startService(new Intent(this, TrackRouteService.class));
 		}
 
 	}
@@ -105,6 +94,8 @@ public class SettingsActivity extends Activity {
 			packageManager.setComponentEnabledSetting(componentName,
 					PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
 					PackageManager.DONT_KILL_APP);
+			Toast.makeText(this, "Autoupload enabled", Toast.LENGTH_SHORT).show();
+
 
 		} else {
 			PackageManager packageManager = getPackageManager();
@@ -114,6 +105,7 @@ public class SettingsActivity extends Activity {
 			packageManager.setComponentEnabledSetting(componentName,
 					PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
 					PackageManager.DONT_KILL_APP);
+			Toast.makeText(this, "Autoupload disabled", Toast.LENGTH_SHORT).show();
 
 		}
 		editor.commit();
@@ -133,11 +125,17 @@ public class SettingsActivity extends Activity {
 				editor.putBoolean("autosave", false);
 
 			} else {
-				Intent intent = new Intent(this, TrackRouteService.class);
+				Toast.makeText(
+				this,
+				"Saving anonymous receptions @ 40mins time interval",
+				Toast.LENGTH_LONG).show();
+
+				Intent intent = new Intent(this, AutoSaveService.class);
 				startService(intent);
 			}
 		} else {
-			Intent intent = new Intent(this, TrackRouteService.class);
+			Toast.makeText(this, "Stopped saving receptions", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(this, AutoSaveService.class);
 			stopService(intent);
 		}
 		editor.commit();

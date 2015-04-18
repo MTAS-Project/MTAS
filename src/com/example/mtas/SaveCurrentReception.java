@@ -2,6 +2,7 @@ package com.example.mtas;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import android.app.Activity;
@@ -11,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
@@ -22,7 +24,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class SaveCurrentReception extends Activity {
 
-
 	TextView networkValue, networkTypeValue, strengthValue, makeValue,
 			modelValue, latitudeValue, longitudeValue;
 
@@ -30,7 +31,7 @@ public class SaveCurrentReception extends Activity {
 	int onscreenSignalStrengthIntLevel;
 	Location onscreenLocation;
 	String locationStatus;
-	
+
 	TelephonyManager telephonyManager;
 	LocationManager locationManager;
 
@@ -54,34 +55,37 @@ public class SaveCurrentReception extends Activity {
 		telephonyManager = (TelephonyManager) getBaseContext()
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-		currentReception();
-
 	}
-
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	protected void onStart() {
+		super.onStart();
+		AutoSaveService.stopLocationListener();
+		currentReception();
+	}
+	@Override
+	protected void onStop() {
+		super.onStop();
 		telephonyManager.listen(myListener, PhoneStateListener.LISTEN_NONE);
 		locationManager.removeUpdates(locationListener);
+		AutoSaveService.startLocationListener();
 	}
 
 	public void currentReception() {
 
-//		Criteria criteria = new Criteria();
-//
-//		String provider = locationManager.getBestProvider(criteria, false);
-//
-//		location = locationManager.getLastKnownLocation(provider);
+		// Criteria criteria = new Criteria();
+		//
+		// String provider = locationManager.getBestProvider(criteria, false);
+		//
+		// location = locationManager.getLastKnownLocation(provider);
 
 		networkValue.setText(getNetwork());
 		networkTypeValue.setText(getNetworkType());
-		
+
 		// strengthValue and networkType is changed using listeners
 		telephonyManager.listen(myListener,
 				PhoneStateListener.LISTEN_SIGNAL_STRENGTHS
 						| PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
-		
+
 		makeValue.setText(getManufacturer());
 		modelValue.setText(getModel());
 
@@ -89,64 +93,75 @@ public class SaveCurrentReception extends Activity {
 		locationStatus = "Searching for GPS...";
 		latitudeValue.setText(locationStatus);
 		longitudeValue.setText(locationStatus);
-		//starting searching for GPS (listen for location updates)
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+		// starting searching for GPS (listen for location updates)
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+				0, locationListener);
 
 	}
-	private String getNetwork(){
-		return onscreenNetwork=telephonyManager.getNetworkOperatorName();
+
+	private String getNetwork() {
+		return onscreenNetwork = telephonyManager.getNetworkOperatorName();
 	}
+
 	private String getManufacturer() {
-		return onscreenMake=Build.MANUFACTURER;
+		return onscreenMake = Build.MANUFACTURER;
 	}
 
 	private String getModel() {
-		return onscreenModel=Build.MODEL;
+		return onscreenModel = Build.MODEL;
 	}
 
 	public String getNetworkType() {
 		int networkType = telephonyManager.getNetworkType();
 		switch (networkType) {
 		case 1: {
-			return onscreenNetworkType="G"; // GRPS
+			return onscreenNetworkType = "G"; // GRPS
 		}
 		case 2: {
-			return onscreenNetworkType="E"; // EDGE
+			return onscreenNetworkType = "E"; // EDGE
 		}
 		case 11: {
-			return onscreenNetworkType="2G";
+			return onscreenNetworkType = "2G";
 		}
 		case 3: {
-			return onscreenNetworkType="3G";
+			return onscreenNetworkType = "3G";
 		}
 		case 10: {
-			return onscreenNetworkType="H";
+			return onscreenNetworkType = "H";
 		}
 		case 13: {
-			return onscreenNetworkType="4G";
+			return onscreenNetworkType = "4G";
 		}
 		case 15: {
-			return onscreenNetworkType="H+";
+			return onscreenNetworkType = "H+";
 		}
 		}
-		return "Unkown("+networkType+")"; // this should not be returned
+		return "Unkown(" + networkType + ")"; // this should not be returned
 	}
 
+	// variable to track event time
+	private long mLastClickTime = 0;
 	public void onClickSaveReceptionButton(View v) {
+		// Preventing multiple clicks, using threshold of 2 second
+		// although button visual do not show disabled effect
+		if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
+			return;
+		}
+		mLastClickTime = SystemClock.elapsedRealtime();
 
 		if (onscreenLocation != null) {
-			Reception reception = new Reception();
 
+			Reception reception = new Reception();
 			reception.setNetworkOp(onscreenNetwork);
 			reception.setServiceType(onscreenNetworkType);
 			reception.setSignalStrength(onscreenSignalStrengthIntLevel);
 			reception.setMaker(onscreenMake);
 			reception.setModel(onscreenModel);
-			reception.setLocation(new LatLng(onscreenLocation.getLatitude(), onscreenLocation
-					.getLongitude()));
-
+			reception.setLocation(new LatLng(onscreenLocation.getLatitude(),
+					onscreenLocation.getLongitude()));
+			// device's date/time may not be correctly set
 			final SimpleDateFormat sdf = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss.000");
+					"yyyy-MM-dd HH:mm:ss.000", Locale.US);
 			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 			String date = sdf.format(new Date());
 
@@ -158,75 +173,31 @@ public class SaveCurrentReception extends Activity {
 
 			Toast.makeText(getApplicationContext(),
 					"Reception saved successfully", Toast.LENGTH_SHORT).show();
+
 		} else {
 			Toast.makeText(getApplicationContext(), locationStatus,
 					Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	
 	private class MyCustomPhoneListener extends PhoneStateListener {
 
 		@Override
 		public void onSignalStrengthsChanged(SignalStrength ss) {
 			super.onSignalStrengthsChanged(ss);
-			strengthValue.setText(asuToString(ss.getGsmSignalStrength()));
+			int asu = ss.getGsmSignalStrength();
+			onscreenSignalStrengthIntLevel = HelpfulStaticFuncs
+					.asuToLevel(asu);
+			strengthValue.setText(HelpfulStaticFuncs.asuToString(asu));
 		}
 
 		@Override
 		public void onDataConnectionStateChanged(int state, int networkType) {
 			super.onDataConnectionStateChanged(state, networkType);
-			networkTypeValue.setText(networkTypeToString(networkType));
+			onscreenNetworkType = HelpfulStaticFuncs
+					.networkTypeIntToString(networkType);
+			networkTypeValue.setText(onscreenNetworkType);
 		}
-
-		private String networkTypeToString(int networkType) {
-			switch (networkType) {
-			case 1: {
-				return onscreenNetworkType="G"; // GRPS
-			}
-			case 2: {
-				return onscreenNetworkType="E"; // EDGE
-			}
-			case 11: {
-				return onscreenNetworkType="2G";
-			}
-			case 3: {
-				return onscreenNetworkType="3G";
-			}
-			case 10: {
-				return onscreenNetworkType="H";
-			}
-			case 13: {
-				return onscreenNetworkType="4G";
-			}
-			case 15: {
-				return onscreenNetworkType="H+";
-			}
-			}
-			return "Unkown("+networkType+")"; // this should not be returned, cater for all unknown types
-		}
-
-		private String asuToString(int asu) {
-			if (asu <= 2 || asu == 99) {
-				onscreenSignalStrengthIntLevel=0;
-				return "No service";
-			} else if (asu > 2 && asu <= 5) {
-				onscreenSignalStrengthIntLevel=1;
-				return "Weak";
-			} else if (asu > 5 && asu <= 8) {
-				onscreenSignalStrengthIntLevel=2;
-				return "Fair";
-			} else if (asu > 8 && asu <= 12) {
-				onscreenSignalStrengthIntLevel=3;
-				return "Good";
-			} else if (asu > 12) {
-				onscreenSignalStrengthIntLevel=4;
-				return "Excellent";
-			}
-			onscreenSignalStrengthIntLevel=-1;	//Strength -1 means unknown signal strength 
-			return "Unknown"; // this should not appear
-		}
-
 	}
 
 	private class MyCustomLocationListener implements LocationListener {
@@ -244,7 +215,7 @@ public class SaveCurrentReception extends Activity {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			onscreenLocation=null;
+			onscreenLocation = null;
 			locationStatus = "GPS is needed to get your location";
 			latitudeValue.setText("[Turn on GPS]");
 			longitudeValue.setText("[Turn on GPS]");

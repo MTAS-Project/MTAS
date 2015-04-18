@@ -19,12 +19,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+    <!-- Needed for BOOT_COMPLETED broadcast receiver -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    
     <!-- LICENSE PERMISSIONS -->
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
 
     <!-- Required to show current location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- Required OpenGL ES 2.0. for Maps V2 -->
@@ -92,19 +93,18 @@
         </activity>
 
         <service
-            android:name=".TrackRouteService"
+            android:name=".AutoSaveService"
             android:enabled="true"
             android:exported="false" >
         </service>
 
-        <!--
-        <service
-            android:name="com.example.mtas.AutoUploadService"
-            android:enabled="true"
-            android:exported="false" >
-        </service>
-        -->
-
+	 <!-- Declaring broadcast receiver for BOOT_COMPLETED event. -->
+        <receiver android:name=".BootCompletedReceiver" android:enabled="true" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+		<receiver android:name=".BootCompletedReceiver" />
         <receiver android:name=".AutoUploadBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

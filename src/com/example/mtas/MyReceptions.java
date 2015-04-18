@@ -2,20 +2,15 @@ package com.example.mtas;
 
 import java.util.ArrayList;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MyReceptions extends FragmentActivity {
 
@@ -64,6 +59,8 @@ public class MyReceptions extends FragmentActivity {
 			
 			for (int i = 0; i < myReceptions.size(); i++) 
 			{
+				if(myReceptions.get(i).getServiceType().equals("H+"))
+					myReceptions.get(i).display();
 				clusterMaker.addItem(myReceptions.get(i));
 			}
 		} 

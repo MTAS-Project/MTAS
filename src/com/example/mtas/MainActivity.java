@@ -14,10 +14,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -25,6 +26,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -43,8 +45,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
@@ -169,6 +169,7 @@ public class MainActivity extends FragmentActivity implements
 			}
 		});
 
+		strengths.add("No service");
 		strengths.add("Weak");
 		strengths.add("Fair");
 		strengths.add("Good");
@@ -181,9 +182,6 @@ public class MainActivity extends FragmentActivity implements
 		// clusterMaker.setRenderer(renderer);
 
 		startServicesIfFirstLaunch();
-
-		launchApplication();
-
 	}
 
 	@Override
@@ -218,13 +216,16 @@ public class MainActivity extends FragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
-
 	/**
 	 * Called when the activity is about to become visible.
 	 */
 	@Override
 	protected void onStart() {
 		super.onStart();
+		AutoSaveService.stopLocationListener();
+		googleMap.setMyLocationEnabled(true);
+		launchApplication();
+
 		sharedPreferences = getSharedPreferences("LastUpdate", MODE_PRIVATE);
 		if (sharedPreferences.contains("timestamp")) {
 			String timeStamp = sharedPreferences.getString("timestamp",
@@ -267,6 +268,8 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onStop() {
 		super.onStop();
+		googleMap.setMyLocationEnabled(false);
+		AutoSaveService.startLocationListener();
 		System.out.println(msg + "The onStop() event");
 		// if(locationManager!=null)
 		// {
@@ -401,8 +404,6 @@ public class MainActivity extends FragmentActivity implements
 
 		}
 
-		googleMap.setMyLocationEnabled(true);
-
 		// googleMap.setOnMyLocationButtonClickListener(this);
 
 		SearchView searchView = (SearchView) findViewById(R.id.searchLocation);
@@ -412,7 +413,12 @@ public class MainActivity extends FragmentActivity implements
 			public boolean onQueryTextSubmit(String query) {
 
 				String location = query;
-				if (location.equals("") == false && location != null)// i changed it to AND from OR
+				if (location.equals("") == false && location != null)// i
+																		// changed
+																		// it to
+																		// AND
+																		// from
+																		// OR
 				{
 
 					new LocationFinder(getApplicationContext(), googleMap)
@@ -496,7 +502,7 @@ public class MainActivity extends FragmentActivity implements
 					if (selectedNetworks.isEmpty() == false) {
 						for (int j = 0; j < selectedNetworks.size(); j++) {
 							if (receptions.get(i).getNetworkOp()
-									.matches(selectedNetworks.get(j))) {
+									.equals(selectedNetworks.get(j))) {
 								match1 = true;
 								break;
 							}
@@ -507,7 +513,7 @@ public class MainActivity extends FragmentActivity implements
 					if (selectedServices.isEmpty() == false) {
 						for (int k = 0; k < selectedServices.size(); k++) {
 							if (receptions.get(i).getServiceType()
-									.matches(selectedServices.get(k))) {
+									.equals(selectedServices.get(k))) {
 								match2 = true;
 								break;
 							}
@@ -544,7 +550,7 @@ public class MainActivity extends FragmentActivity implements
 					if (selectedMakers.isEmpty() == false) {
 						for (int n = 0; n < selectedMakers.size(); n++) {
 							if (receptions.get(i).getMaker()
-									.matches(selectedMakers.get(n))) {
+									.equals(selectedMakers.get(n))) {
 								match4 = true;
 								break;
 							}
@@ -556,7 +562,7 @@ public class MainActivity extends FragmentActivity implements
 					if (selectedModels.isEmpty() == false) {
 						for (int n = 0; n < selectedModels.size(); n++) {
 							if (receptions.get(i).getModel()
-									.matches(selectedModels.get(n))) {
+									.equals(selectedModels.get(n))) {
 								match5 = true;
 								break;
 							}
@@ -602,26 +608,15 @@ public class MainActivity extends FragmentActivity implements
 
 		for (int i = 0; i < tempRecp.size(); i++) {
 
-			// marker = googleMap.addMarker(new MarkerOptions()
-			// .position(receptions.get(i).getLocation())
-			// .title(receptions.get(i).getNetworkOp())
-			// .snippet("Network Type/Strength: "+receptions.get(i).getServiceType())
-			// .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+			// if (tempRecp.get(i).getSignalStrength() != 0) {
+			clusterMaker.addItem(tempRecp.get(i));
 
-			if (tempRecp.get(i).getSignalStrength() != 0) {
-				clusterMaker.addItem(tempRecp.get(i));
+			// renderer.onBeforeClusterItemRendered(tempRecp.get(i),
+			// markerOptions);
+			// clusterMaker.addItem(tempRecp.get(i)); //for markers and
+			// clusters
 
-				// renderer.onBeforeClusterItemRendered(tempRecp.get(i),
-				// markerOptions);
-				// clusterMaker.addItem(tempRecp.get(i)); //for markers and
-				// clusters
-
-				// Circle circle = googleMap.addCircle(new CircleOptions()
-				// .center(tempRecp.get(i).getLocation())
-				// .radius(10000)
-				// .strokeColor(Color.RED)
-				// .fillColor(Color.BLUE));
-			}
+			// }
 
 		}
 
@@ -726,15 +721,6 @@ public class MainActivity extends FragmentActivity implements
 		sharedPreferences = getSharedPreferences("Settings", 0);
 		editor = sharedPreferences.edit();
 
-		// if (!sharedPreferences.contains("autosave"))
-		// {
-		// //this is first launch of the application, start the autoSave service
-		// and put this action in sharedPreferences of this application
-		// editor.putBoolean("autosave", true);
-		// editor.commit();
-		//
-		// startService(new Intent(this, AutoSaveService.class));
-		// }
 		if (!sharedPreferences.contains("autoupload")) {
 			// this is first launch of the application, start the autoUpload
 			// service and put this action in sharedPreferences of this
@@ -754,10 +740,39 @@ public class MainActivity extends FragmentActivity implements
 			// application
 			editor.putBoolean("autosave", true);
 			editor.commit();
-
-			startService(new Intent(this, TrackRouteService.class));
+			askPermissionForAutoSave();
 		}
 
+	}
+
+	private void askPermissionForAutoSave() {
+
+		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		alertDialog.setTitle("Share your receptions");
+		alertDialog.setMessage("Allow saving anonymous receptions automatically. Share with people how good (or bad) your network provider is. You are NOT identified by the data you submit.");
+		alertDialog.setIcon(R.drawable.icon_info);
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "AGREE",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(
+								getApplicationContext(),
+								"Saving anonymous receptions @ 40mins time interval",
+								Toast.LENGTH_SHORT).show();
+
+						startService(new Intent(getApplicationContext(), AutoSaveService.class));
+					}
+				});
+		alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DISAGREE",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(
+								getApplicationContext(),
+								"You can later turn on autosave from the app's settings",
+								Toast.LENGTH_LONG).show();
+
+					}
+				});
+		alertDialog.show();
 	}
 
 	// --------------------------------------------------------------------------------------------------------------
@@ -767,11 +782,10 @@ public class MainActivity extends FragmentActivity implements
 
 	// Uses AsyncTask to create a task away from the main UI thread.
 
-	private class ServerHandlerAsyncTask extends
-			AsyncTask<Void, Void, ArrayList<Reception>> {
+	private class ServerHandlerAsyncTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
-		protected ArrayList<Reception> doInBackground(Void... voidParams) {
+		protected Void doInBackground(Void... voidParams) {
 			// voidParams is just holder for void
 			// Downloading receptions...
 			ArrayList<Reception> downloadedList = null;
@@ -781,21 +795,26 @@ public class MainActivity extends FragmentActivity implements
 
 				downloadedList = fetchData();
 			}
-			return downloadedList;
+
+			// use this list for making markers
+			receptions = downloadedList;
+			dbHandler.deleteAllReceptions();
+			dbHandler.addAllReception(receptions);
+
+			// ---------------------- Save Last Update Time
+			String date = (String) (DateFormat.format("dd-MM-yyyy hh:mm:ss",
+					new java.util.Date()));
+			sharedPreferences = getSharedPreferences("LastUpdate", MODE_PRIVATE);
+			editor = sharedPreferences.edit();
+			editor.putString("timestamp", date);
+			editor.commit();
+			return null;
+
 		}
 
 		// onPostExecute sets the receptionsList to lists[0]
 		@Override
-		protected void onPostExecute(ArrayList<Reception> downloadedReceptions) {
-
-			// use this array for making markers
-			if (downloadedReceptions == null)// if in case
-				downloadedReceptions = new ArrayList<Reception>();
-
-			receptions = downloadedReceptions;
-
-			dbHandler.deleteAllReceptions();
-			dbHandler.addAllReception(receptions);
+		protected void onPostExecute(Void v) {
 
 			progressBar.setVisibility(View.INVISIBLE);
 			refreshData.setVisibility(View.VISIBLE);
@@ -804,15 +823,13 @@ public class MainActivity extends FragmentActivity implements
 			setDataonMap();
 			updateFilterLists();
 
-			// ---------------------- Save Last Update Time
-			// ---------------------"
-			String date = (String) (DateFormat.format("dd-MM-yyyy hh:mm:ss",
-					new java.util.Date()));
-			editor = sharedPreferences.edit();
-			editor.putString("timestamp", date);
-			editor.commit();
-
-			lastUpdate.setText("Last Update : " + date);
+			// ---------------------- Show Last Update Time
+			sharedPreferences = getSharedPreferences("LastUpdate", MODE_PRIVATE);
+			if (sharedPreferences.contains("timestamp")) {
+				String timeStamp = sharedPreferences.getString("timestamp",
+						"Not found");
+				lastUpdate.setText("Last Updated: " + timeStamp);
+			}
 		}
 
 		private ArrayList<Reception> fetchData() {
@@ -938,61 +955,61 @@ public class MainActivity extends FragmentActivity implements
 
 	}
 
-//	public class showMyReceptions extends
-//			AsyncTask<Void, Void, ArrayList<Reception>> {
-//		@Override
-//		protected ArrayList<Reception> doInBackground(Void... params) {
-//
-//			System.out.println(msg + " My Receptions Count = "
-//					+ dbHandler.getPathReceptionsCount());
-//			if (dbHandler.getPathReceptionsCount() > 0) {
-//				ArrayList<Reception> receptionList = dbHandler
-//						.getPathReceptions(0);
-//				return receptionList;
-//			}
-//			return null;
-//		}
-//
-//		@Override
-//		protected void onPostExecute(ArrayList<Reception> receptionList) {
-//
-//			if (receptionList != null) {
-//				for (int i = 0; i < receptionList.size(); i++) {
-//
-//					int color = 0;
-//					switch (receptionList.get(i).getSignalStrength()) {
-//					case 1: {
-//						color = Color.RED;
-//
-//						break;
-//					}
-//					case 2: {
-//						color = Color.YELLOW;
-//
-//						break;
-//					}
-//					case 3: {
-//						color = android.R.color.holo_orange_dark;
-//
-//						break;
-//					}
-//					case 4: {
-//						color = Color.GREEN;
-//						break;
-//					}
-//					}
-//					Circle circle = googleMap.addCircle(new CircleOptions()
-//							.center(receptionList.get(i).getLocation())
-//							.radius(10).fillColor(color).strokeColor(color)
-//							.zIndex(100));
-//
-//				}
-//			} else {
-//				Toast.makeText(getApplicationContext(),
-//						"No Saved Receptions Yet", Toast.LENGTH_LONG).show();
-//			}
-//		}
-//	}
+	// public class showMyReceptions extends
+	// AsyncTask<Void, Void, ArrayList<Reception>> {
+	// @Override
+	// protected ArrayList<Reception> doInBackground(Void... params) {
+	//
+	// System.out.println(msg + " My Receptions Count = "
+	// + dbHandler.getPathReceptionsCount());
+	// if (dbHandler.getPathReceptionsCount() > 0) {
+	// ArrayList<Reception> receptionList = dbHandler
+	// .getPathReceptions(0);
+	// return receptionList;
+	// }
+	// return null;
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(ArrayList<Reception> receptionList) {
+	//
+	// if (receptionList != null) {
+	// for (int i = 0; i < receptionList.size(); i++) {
+	//
+	// int color = 0;
+	// switch (receptionList.get(i).getSignalStrength()) {
+	// case 1: {
+	// color = Color.RED;
+	//
+	// break;
+	// }
+	// case 2: {
+	// color = Color.YELLOW;
+	//
+	// break;
+	// }
+	// case 3: {
+	// color = android.R.color.holo_orange_dark;
+	//
+	// break;
+	// }
+	// case 4: {
+	// color = Color.GREEN;
+	// break;
+	// }
+	// }
+	// Circle circle = googleMap.addCircle(new CircleOptions()
+	// .center(receptionList.get(i).getLocation())
+	// .radius(10).fillColor(color).strokeColor(color)
+	// .zIndex(100));
+	//
+	// }
+	// } else {
+	// Toast.makeText(getApplicationContext(),
+	// "No Saved Receptions Yet", Toast.LENGTH_LONG).show();
+	// }
+	// }
+	// }
 
 	public boolean checkIfOnline(Context context) {
 		// Connectivity Manager handles management of network connection

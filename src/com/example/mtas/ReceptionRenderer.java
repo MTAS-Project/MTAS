@@ -57,15 +57,56 @@ public class ReceptionRenderer extends DefaultClusterRenderer<Reception>{
 		
 		marker.setPosition(reception.getLocation());
 		marker.setTitle(reception.getNetworkOp());
-		String quality = MyCustomPhoneListener.levelToString(reception.getSignalStrength());
+		String quality = HelpfulStaticFuncs.levelToString(reception.getSignalStrength());
 		marker.setSnippet(quality +","+reception.getServiceType()
 						 +","+reception.getMaker()+","+reception.getModel());
 		
 		
 //		System.out.print("Cluster ");reception.display();
 //		System.out.println("MTAS signal strenght = "+reception.getSignalStrength()+","+reception.getServiceType());
-		
+		if(reception.getSignalStrength()==0)
+		{
+			switch(reception.getServiceType().toLowerCase())
+			{
+				case "g":
+				{
+					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.grayg));
+					break;
+				}
+				case "2g":
+				{
+					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.gray2g));
+					break;
+				}
+				case "3g":
+				{
+					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.gray3g));
+					break;
+				}
+				case "4g":
+				{
+					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.gray4g));
+					break;
+				}
+				case "e":
+				{
+					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.graye));
+					break;
+				}
+				case "h":
+				{
+					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.grayh));
+					break;
+				}
+				case "h+":
+				{
+					marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.grayhplus));
+					break;
+				}
+			}
+		}	
 		if(reception.getSignalStrength()==1)
+
 		{
 			switch(reception.getServiceType().toLowerCase())
 			{

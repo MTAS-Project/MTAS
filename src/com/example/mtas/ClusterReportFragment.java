@@ -1,12 +1,6 @@
 package com.example.mtas;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import org.apache.http.impl.conn.DefaultResponseParser;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.android.clustering.Cluster;
 
 import android.app.DialogFragment;
 import android.graphics.Color;
@@ -16,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.webkit.WebView.FindListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.google.maps.android.clustering.Cluster;
 
 public class ClusterReportFragment extends DialogFragment{
 	

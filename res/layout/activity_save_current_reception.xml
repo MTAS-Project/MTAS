@@ -18,7 +18,7 @@
         android:layout_marginRight="4dp"
         android:background="#ff009f4b"
         android:onClick="onClickSaveReceptionButton"
-        android:text="        Save Reception       "
+        android:text="Save Reception"
         android:textColor="#ffffffff" />
 
     <TextView

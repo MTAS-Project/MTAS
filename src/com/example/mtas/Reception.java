@@ -1,32 +1,34 @@
 package com.example.mtas;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class Reception implements ClusterItem {
-	
+
 	private LatLng location;
 	private String networkOp;
 	private String serviceType;
-	private int signalStrength;
+	private Integer signalStrength;
 	private String maker;
 	private String model;
 	private String timeStamp;
-	
-	Reception()
-	{
-		
+
+	Reception() {
+
 	}
 
-	public Reception(LatLng location, String networkOp, String serviceType, int signalStrength, String maker, String model, String timeStamp) 
-	{
+	public Reception(LatLng location, String networkOp, String serviceType,
+			int signalStrength, String maker, String model, String timeStamp) {
 		this.location = location;
-		this.networkOp = networkOp.trim();
-		this.serviceType = serviceType.trim();
+		this.networkOp = networkOp;
+		this.serviceType = serviceType;
 		this.signalStrength = signalStrength;
-		this.maker = maker.trim();
-		this.model = model.trim();
-		this.timeStamp = timeStamp.trim();
+		this.maker = maker;
+		this.model = model;
+		this.timeStamp = timeStamp;
 	}
 
 	public LatLng getLocation() {
@@ -42,7 +44,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setNetworkOp(String networkOp) {
-		this.networkOp = networkOp.trim();
+		this.networkOp = networkOp;
 	}
 
 	public String getServiceType() {
@@ -50,7 +52,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setServiceType(String serviceType) {
-		this.serviceType = serviceType.trim();
+		this.serviceType = serviceType;
 	}
 
 	public int getSignalStrength() {
@@ -66,7 +68,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setMaker(String maker) {
-		this.maker = maker.trim();
+		this.maker = maker;
 	}
 
 	public String getModel() {
@@ -74,7 +76,7 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setModel(String model) {
-		this.model = model.trim();
+		this.model = model;
 	}
 
 	public String getTimeStamp() {
@@ -82,23 +84,43 @@ public class Reception implements ClusterItem {
 	}
 
 	public void setTimeStamp(String timeStamp) {
-		this.timeStamp = timeStamp.trim();
+		this.timeStamp = timeStamp;
 	}
-	
-	public void display()
-	{
-		System.out.println(this.location+","+this.networkOp+","+this.serviceType+","+this.signalStrength+","+this.maker+","+this.model+","+this.timeStamp);
+
+	public void display() {
+		System.out.println(this.location + "," + this.networkOp + ","
+				+ this.serviceType + "," + this.signalStrength + ","
+				+ this.maker + "," + this.model + "," + this.timeStamp);
 	}
 
 	@Override
 	public LatLng getPosition() {
-		
+
 		return location;
 	}
 
 	public String toUrlParameters() {
-		// TODO Auto-generated method stub
-		
-		return "longitude="+location.longitude+"&latitude="+location.latitude+"&service_provider="+this.networkOp+"&service_type="+this.serviceType+"&signal_strength="+this.signalStrength+"&make="+this.maker+"&model="+this.model+"&timestamp="+this.timeStamp;
+		String encoding = "UTF-8";
+		String longitude, latitude, network, networkType, strength, make, model, time;
+		longitude = this.location.longitude + "";
+		latitude = this.location.latitude + "";
+		network = networkType = strength = make = model = time = "";
+		try {
+			network = URLEncoder.encode(this.networkOp, encoding);
+			networkType = URLEncoder.encode(this.serviceType, encoding);
+			strength = URLEncoder.encode(this.signalStrength.toString(),
+					encoding);
+			make = URLEncoder.encode(this.maker, encoding);
+			model = URLEncoder.encode(this.model, encoding);
+			time = URLEncoder.encode(this.timeStamp, encoding);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String encodedParameters = "longitude=" + longitude + "&latitude=" + latitude
+				+ "&service_provider=" + network + "&service_type="
+				+ networkType + "&signal_strength=" + strength + "&make="
+				+ make + "&model=" + model + "&timestamp=" + time;
+		System.out.println(encodedParameters);
+		return encodedParameters;
 	}
 }
